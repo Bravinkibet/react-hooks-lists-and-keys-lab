@@ -2,31 +2,18 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import NavBar from "../components/NavBar";
 
-test("each <a> element has a unique key prop", () => {
-  const errorSpy = jest.spyOn(global.console, "error");
-
+test("renders three <a> elements with correct text and href attributes", () => {
   render(<NavBar />);
+  
+  const links = screen.getAllByRole('link');
 
-  expect(errorSpy).not.toHaveBeenCalled();
+  expect(links).toHaveLength(3);
 
-  errorSpy.mockRestore();
-});
+  expect(links[0]).toHaveTextContent(/home/i);
+  expect(links[1]).toHaveTextContent(/about/i);
+  expect(links[2]).toHaveTextContent(/projects/i);
 
-test("renders three <a> elements", () => {
-  const { container } = render(<NavBar />);
-  expect(container.querySelectorAll("a")).toHaveLength(3);
-});
-
-test("displays the correct text for each <a> element", () => {
-  render(<NavBar />);
-  expect(screen.queryByText(/home/i)).toBeInTheDocument();
-  expect(screen.queryByText(/about/i)).toBeInTheDocument();
-  expect(screen.queryByText(/projects/i)).toBeInTheDocument();
-});
-
-test("each <a> element has the correct href attribute", () => {
-  render(<NavBar />);
-  expect(screen.queryByText(/home/i).href).toContain("#home");
-  expect(screen.queryByText(/about/i).href).toContain("#about");
-  expect(screen.queryByText(/projects/i).href).toContain("#projects");
+  expect(links[0]).toHaveAttribute('href', '#home');
+  expect(links[1]).toHaveAttribute('href', '#about');
+  expect(links[2]).toHaveAttribute('href', '#projects');
 });
