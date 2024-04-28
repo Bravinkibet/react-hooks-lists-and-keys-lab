@@ -7,6 +7,7 @@ function NavBar() {
     <a key={link} href={"#" + link}>
       {link}
     </a>
+    
   ));
   return <nav>{anchors}</nav>;
 }
